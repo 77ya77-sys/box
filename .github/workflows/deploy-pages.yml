@@ -46,7 +46,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Переключить Pages на GitHub Actions (если ещё legacy с веткой)
+      # GitHub ожидает branch/path даже для workflow — см. REST Pages.
+      - name: Переключить Pages на GitHub Actions (workflow)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -54,15 +55,19 @@ jobs:
           REPO="${{ github.repository }}"
           API="https://api.github.com/repos/${REPO}/pages"
           HDR=(-H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GH_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28")
+          BODY='{"build_type":"workflow","source":{"branch":"main","path":"/"}}'
           code=$(curl -sS -o /tmp/pg.json -w "%{http_code}" "${HDR[@]}" "$API")
           echo "GET $API => HTTP $code"
           if [ "$code" = "404" ]; then
-            curl -sS -f -X POST "${HDR[@]}" "$API" -d '{"build_type":"workflow"}'
-            echo "POST pages (workflow) OK"
+            http=$(curl -sS -o /tmp/pg-out.json -w "%{http_code}" -X POST "${HDR[@]}" "$API" -d "$BODY")
+            echo "POST => HTTP $http"; cat /tmp/pg-out.json
+            [[ "$http" =~ ^20 ]]
           else
-            curl -sS -f -X PUT "${HDR[@]}" "$API" -d '{"build_type":"workflow"}'
-            echo "PUT pages (workflow) OK"
+            http=$(curl -sS -o /tmp/pg-out.json -w "%{http_code}" -X PUT "${HDR[@]}" "$API" -d "$BODY")
+            echo "PUT => HTTP $http"; cat /tmp/pg-out.json
+            [[ "$http" =~ ^20 ]]
           fi
+          rm -f /tmp/pg.json /tmp/pg-out.json
 
       - id: deployment
         uses: actions/deploy-pages@v4
