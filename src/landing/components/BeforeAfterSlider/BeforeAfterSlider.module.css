@@ -16,6 +16,38 @@
   cursor: ew-resize;
 }
 
+.phaseLabels {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.phaseLabelDo,
+.phaseLabelPosle {
+  position: absolute;
+  top: 12px;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+}
+
+/* «До» — в 2× крупнее базовых 18px, верхний правый угол */
+.phaseLabelDo {
+  right: 12px;
+  left: auto;
+}
+
+/* «После» — тот же размер, верхний левый угол (после ⅓ трека вправо) */
+.phaseLabelPosle {
+  left: 12px;
+  right: auto;
+}
+
 .imgAfter,
 .imgBefore {
   position: absolute;
@@ -79,6 +111,20 @@
 }
 
 @media (max-width: 480px) {
+  .phaseLabelDo,
+  .phaseLabelPosle {
+    top: 10px;
+    font-size: 32px;
+  }
+
+  .phaseLabelDo {
+    right: 10px;
+  }
+
+  .phaseLabelPosle {
+    left: 10px;
+  }
+
   .handle {
     width: 40px;
     height: 40px;

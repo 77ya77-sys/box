@@ -71,6 +71,8 @@ export function BeforeAfterSlider({ beforeSrc, afterSrc }: Props) {
   )
 
   const clipRight = `${100 - pct}%`
+  /** До трети трека вправо — «До» справа; дальше — «После» слева (одинаковый крупный размер) */
+  const afterThird = pct > 100 / 3
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === 'ArrowLeft') {
@@ -99,6 +101,9 @@ export function BeforeAfterSlider({ beforeSrc, afterSrc }: Props) {
         onPointerCancel={endDrag}
         role="presentation"
       >
+        <div className={styles.phaseLabels} aria-live="polite">
+          {!afterThird ? <p className={styles.phaseLabelDo}>До</p> : <p className={styles.phaseLabelPosle}>После</p>}
+        </div>
         <img className={styles.imgAfter} src={beforeSrc} alt="" decoding="async" draggable={false} />
         <div className={styles.beforeClip} style={{ clipPath: `inset(0 ${clipRight} 0 0)` }}>
           <img className={styles.imgBefore} src={afterSrc} alt="" decoding="async" draggable={false} />

@@ -81,6 +81,13 @@
 }
 
 @media (max-width: 900px) {
+  /* Как заголовки карточек третьего блока (.cardTitle) */
+  .heading {
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
   .bulletsWrap {
     max-width: none;
   }

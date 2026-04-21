@@ -13,9 +13,9 @@ export function FeaturesSection() {
     >
       <PageContainer>
         <div className={styles.plate}>
-          <div className={styles.rows}>
+          <div className={styles.cardTrack}>
             <div className={styles.row}>
-              <article className={`${styles.card} ${styles.cardDark}`}>
+              <article className={`${styles.card} ${styles.cardDark} ${styles.cardLarge}`}>
                 <ShieldCheck {...iconProps} className={styles.iconOnDark} aria-hidden />
                 <h3 className={`${styles.cardTitle} ${styles.cardTitleOnDark}`}>
                   Еда больше не касается грязного пола
@@ -25,7 +25,7 @@ export function FeaturesSection() {
                 </p>
               </article>
 
-              <article className={`${styles.card} ${styles.cardLight} ${styles.cardDoor}`}>
+              <article className={`${styles.card} ${styles.cardLight} ${styles.cardDoor} ${styles.cardSmall}`}>
                 <DoorOpen {...iconProps} className={styles.icon} aria-hidden />
                 <h3 className={`${styles.cardTitle} ${styles.cardTitleDoor}`}>
                   Свободный выход из квартиры
@@ -37,7 +37,7 @@ export function FeaturesSection() {
             </div>
 
             <div className={styles.row}>
-              <article className={`${styles.card} ${styles.cardLight} ${styles.cardEye}`}>
+              <article className={`${styles.card} ${styles.cardLight} ${styles.cardEye} ${styles.cardSmall}`}>
                 <EyeOff {...iconProps} className={styles.icon} aria-hidden />
                 <h3 className={styles.cardTitle}>Не раздражает соседей</h3>
                 <p className={styles.cardText}>
@@ -45,7 +45,7 @@ export function FeaturesSection() {
                 </p>
               </article>
 
-              <article className={`${styles.card} ${styles.cardMuted} ${styles.cardWrench}`}>
+              <article className={`${styles.card} ${styles.cardMuted} ${styles.cardWrench} ${styles.cardLarge}`}>
                 <Wrench {...iconProps} className={styles.icon} aria-hidden />
                 <h3 className={styles.cardTitle}>Установка за 0 минут</h3>
                 <p className={styles.cardText}>

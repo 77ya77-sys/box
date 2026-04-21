@@ -105,9 +105,19 @@
 }
 
 .dot {
+  flex: none;
   width: 5px;
   height: 5px;
   border-radius: 50%;
   background: var(--color-ink);
+}
+
+@media (max-width: 900px) {
+  .trusts {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 6px 10px;
+    white-space: nowrap;
+  }
 }
 

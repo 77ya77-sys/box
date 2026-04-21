@@ -68,6 +68,15 @@ body {
   line-height: 1.45;
 }
 
+/* Мобилка: без горизонтального скролла всей страницы (карусели и т.п. — внутри своих overflow) */
+@media (max-width: 900px) {
+  html,
+  body {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;
