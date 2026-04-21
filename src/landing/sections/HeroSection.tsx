@@ -1,5 +1,6 @@
 import { PageContainer } from '../../components/PageContainer/PageContainer'
 import { useOrderModal } from '../../features/order-modal/useOrderModal'
+import { publicUrl } from '../../lib/publicUrl'
 import styles from './HeroSection.module.css'
 
 export function HeroSection() {
@@ -7,7 +8,11 @@ export function HeroSection() {
 
   return (
     <section className={styles.section} id="top" aria-label="Главный экран">
-      <div className={styles.bg} aria-hidden />
+      <div
+        className={styles.bg}
+        style={{ backgroundImage: `url(${publicUrl('images/hero-bg.webp')})` }}
+        aria-hidden
+      />
       <PageContainer>
         <div className="figmaPlate">
           <div className={styles.inner}>

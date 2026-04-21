@@ -1,4 +1,5 @@
 import { PageContainer } from '../../components/PageContainer/PageContainer'
+import { publicUrl } from '../../lib/publicUrl'
 import styles from './GallerySection.module.css'
 
 type Item = {
@@ -12,25 +13,25 @@ type Item = {
 const items: Item[] = [
   {
     id: 1,
-    src: '/images/1.webp',
+    src: 'images/1.webp',
     title: 'Незаметен в интерьере',
     text: 'Прозрачный материал сливается \nсо стенами и не выглядит как чужеродный ящик в подъезде',
   },
   {
     id: 2,
-    src: '/images/2.webp',
+    src: 'images/2.webp',
     title: 'Вмещает все заказы',
     text: 'Внутрь легко помещается 5-литровая вода \nи несколько больших пакетов с продуктами',
   },
   {
     id: 3,
-    src: '/images/3.webp',
+    src: 'images/3.webp',
     title: 'Не мешает проходу',
     text: 'Компактный размер. Бокс оставляет коридор свободным \nи не блокирует чужие двери',
   },
   {
     id: 4,
-    src: '/images/4.webp',
+    src: 'images/4.webp',
     title: 'Идеальный порядок',
     text: 'Курьеры больше не бросают еду на грязный пол, а аккуратно составляют пакеты в бокс',
   },
@@ -51,7 +52,7 @@ export function GallerySection() {
                   <div className={styles.media}>
                     <img
                       className={styles.mediaImg}
-                      src={it.src}
+                      src={publicUrl(it.src)}
                       alt=""
                       loading="lazy"
                       decoding="async"

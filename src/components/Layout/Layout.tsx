@@ -4,11 +4,13 @@ import { YandexMetrika } from '../../features/analytics/YandexMetrika'
 import { PageContainer } from '../PageContainer/PageContainer'
 import { useOrderModal } from '../../features/order-modal/useOrderModal'
 import { CONTACT } from '../../config/external'
+import { publicUrl } from '../../lib/publicUrl'
 import { FooterPaymentIcons } from './FooterPaymentIcons'
 import styles from './Layout.module.css'
 
 function Header() {
   const { open } = useOrderModal()
+  const hash = (id: string) => `${import.meta.env.BASE_URL}#${id}`
 
   return (
     <header className={styles.header}>
@@ -17,13 +19,13 @@ function Header() {
           Курьер бокс
         </Link>
         <nav className={styles.nav} aria-label="Навигация по странице">
-          <a className={styles.navLink} href="/#design">
+          <a className={styles.navLink} href={hash('design')}>
             Дизайн
           </a>
-          <a className={styles.navLink} href="/#characteristics">
+          <a className={styles.navLink} href={hash('characteristics')}>
             Характеристики
           </a>
-          <a className={styles.navLink} href="/#delivery">
+          <a className={styles.navLink} href={hash('delivery')}>
             Доставка
           </a>
         </nav>
@@ -74,13 +76,13 @@ function Footer() {
 
           <div className={styles.footerSocial}>
             <a href={CONTACT.telegram} target="_blank" rel="noreferrer" aria-label="Telegram">
-              <img src="/images/social-tg.png" alt="" width={44} height={44} />
+              <img src={publicUrl('images/social-tg.png')} alt="" width={44} height={44} />
             </a>
             <a href={CONTACT.max} target="_blank" rel="noreferrer" aria-label="MAX">
-              <img src="/images/social-max.png" alt="" width={44} height={44} />
+              <img src={publicUrl('images/social-max.png')} alt="" width={44} height={44} />
             </a>
             <a href={CONTACT.whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp">
-              <img src="/images/social-wa.png" alt="" width={44} height={44} />
+              <img src={publicUrl('images/social-wa.png')} alt="" width={44} height={44} />
             </a>
           </div>
         </div>

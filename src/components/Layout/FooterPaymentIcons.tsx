@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { publicUrl } from '../../lib/publicUrl'
 import styles from './Layout.module.css'
 
 /** Файлы в public/images/ — реальные файлы PNG (раньше были с расширением .svg) */
 const PAYMENT_ASSETS = [
   {
-    src: '/images/spb.png',
+    path: 'images/spb.png',
     label: 'Система быстрых платежей',
     w: 49,
     h: 25,
@@ -12,7 +13,7 @@ const PAYMENT_ASSETS = [
     invert: true,
   },
   {
-    src: '/images/mir.png',
+    path: 'images/mir.png',
     label: 'Платёжная система «Мир»',
     w: 83,
     h: 25,
@@ -23,8 +24,15 @@ const PAYMENT_ASSETS = [
 export function FooterPaymentIcons() {
   return (
     <div className={styles.footerPayments} role="group" aria-label="Принимаем к оплате">
-      {PAYMENT_ASSETS.map(({ src, label, w, h, invert }) => (
-        <FooterPaymentSlot key={src} src={src} label={label} width={w} height={h} invert={invert} />
+      {PAYMENT_ASSETS.map(({ path, label, w, h, invert }) => (
+        <FooterPaymentSlot
+          key={path}
+          src={publicUrl(path)}
+          label={label}
+          width={w}
+          height={h}
+          invert={invert}
+        />
       ))}
     </div>
   )

@@ -1,4 +1,5 @@
 import { PageContainer } from '../../components/PageContainer/PageContainer'
+import { publicUrl } from '../../lib/publicUrl'
 import { BeforeAfterSlider } from '../components/BeforeAfterSlider/BeforeAfterSlider'
 import styles from './ProblemSection.module.css'
 
@@ -12,8 +13,8 @@ export function ProblemSection() {
           </h2>
 
           <BeforeAfterSlider
-            beforeSrc="/images/problem-before.webp"
-            afterSrc="/images/problem-after.webp"
+            beforeSrc={publicUrl('images/problem-before.webp')}
+            afterSrc={publicUrl('images/problem-after.webp')}
           />
 
           <div className={styles.bulletsWrap}>

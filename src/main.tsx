@@ -6,10 +6,13 @@ import './index.css'
 import App from './App.tsx'
 import { OrderModalProvider } from './features/order-modal/OrderModalProvider'
 
+const basename =
+  import.meta.env.BASE_URL.length > 1 ? import.meta.env.BASE_URL.replace(/\/$/, '') : undefined
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HelmetProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <OrderModalProvider>
           <App />
         </OrderModalProvider>

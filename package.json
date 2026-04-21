@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "dev:api": "npm run dev --prefix api",
     "dev:all": "concurrently -n web,api -c blue,magenta \"vite\" \"npm run dev --prefix api\"",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/copy-spa-404.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
