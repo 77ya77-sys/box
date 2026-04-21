@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      ;(() => {
+        const dev =
+          ['127.0.0.1', 'localhost'].includes(location.hostname) &&
+          /^517[34]$|^4173$/.test(location.port)
+        const l = document.createElement('link')
+        l.rel = 'icon'
+        l.type = 'image/svg+xml'
+        l.href = dev ? '/favicon.svg' : new URL('docs/favicon.svg', document.baseURI).href
+        document.head.appendChild(l)
+      })()
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Курьер-бокс</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/box/docs/assets/index-DM-T9a8e.js"></script>
+    <link rel="modulepreload" crossorigin href="/box/docs/assets/preload-helper-C3NlWcJz.js">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
