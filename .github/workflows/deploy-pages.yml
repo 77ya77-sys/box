@@ -1,4 +1,4 @@
-# Сборка с base /<repo>/ → публикация из docs/ (Source: Deploy from branch, main/docs).
+# Сборка с base /<repo>/docs/ → публикация из docs/ (Source: Deploy from branch, main/root).
 
 name: Deploy to GitHub Pages
 
@@ -25,10 +25,10 @@ jobs:
           node-version: '22'
           cache: npm
 
-      - name: Сборка под GitHub Pages
+      - name: Сборка под GitHub Pages (root source + /docs)
         run: npm ci && npm run build
         env:
-          VITE_BASE: /${{ github.event.repository.name }}/
+          VITE_BASE: /${{ github.event.repository.name }}/docs/
 
       - name: Копировать dist в docs и пуш
         run: |

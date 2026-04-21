@@ -32,13 +32,13 @@ npm run build
 Единая и рекомендуемая схема (без ручных переключений):
 
 1. `Settings → Pages → Source: Deploy from a branch`
-2. `Branch: main`, `Folder: /docs`
+2. `Branch: main`, `Folder: /(root)`
 3. Workflow `Deploy to GitHub Pages` на каждом пуше в `main`:
-   - собирает проект с `VITE_BASE=/<repo>/`;
+   - собирает проект с `VITE_BASE=/<repo>/docs/`;
    - копирует `dist/` в `docs/`;
    - пушит обновлённую статику в `main`.
 
-Важно: для Source `main/docs` URL сайта должен быть вида `https://<user>.github.io/<repo>/`, а не `.../<repo>/docs/`.
+Важно: при этой схеме публичный URL остаётся `https://<user>.github.io/<repo>/`, а корневой `index.html` перенаправляет на `.../<repo>/docs/`.
 
 ## Боевое окружение (VPS/nginx)
 
