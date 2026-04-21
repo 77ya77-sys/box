@@ -56,8 +56,16 @@ jobs:
           else
             http=$(curl -sS -o /tmp/pg-out.json -w "%{http_code}" -X PUT "${HDR[@]}" "$API" -d "$BODY")
             echo "PUT => HTTP $http"; cat /tmp/pg-out.json
+            if [ "$http" = "422" ] || [ "$http" = "409" ]; then
+              echo "PUT не принят (часто после режима workflow) — сброс и POST legacy"
+              dh=$(curl -sS -o /tmp/pg-del.json -w "%{http_code}" -X DELETE "${HDR[@]}" "$API")
+              echo "DELETE => HTTP $dh"; cat /tmp/pg-del.json
+              case "$dh" in 204|200) ;; *) exit 1 ;; esac
+              http=$(curl -sS -o /tmp/pg-out.json -w "%{http_code}" -X POST "${HDR[@]}" "$API" -d "$BODY")
+              echo "POST после DELETE => HTTP $http"; cat /tmp/pg-out.json
+            fi
           fi
           case "$http" in
-            20*|204) echo "Pages API OK" ;;
+            20*|201|204) echo "Pages API OK" ;; # 20x + явно 201/204
             *) exit 1 ;;
           esac
