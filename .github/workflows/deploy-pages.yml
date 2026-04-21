@@ -39,7 +39,7 @@ jobs:
           publish_dir: ./dist
           force_orphan: true
 
-      - name: Pages: только ветка gh-pages (legacy)
+      - name: "Pages — legacy, ветка gh-pages, корень /"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
