@@ -1,4 +1,4 @@
-import { useCallback, useId, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import styles from './BeforeAfterSlider.module.css'
 
 type Props = {
@@ -14,8 +14,52 @@ export function BeforeAfterSlider({ beforeSrc, afterSrc }: Props) {
   const id = useId()
   const trackRef = useRef<HTMLDivElement>(null)
   const dragging = useRef(false)
+  const autoDir = useRef<1 | -1>(1)
+  const lastTickTs = useRef<number | null>(null)
 
   const [pct, setPct] = useState(50)
+  const [autoPlay, setAutoPlay] = useState(true)
+
+  const stopAutoPlay = useCallback(() => {
+    setAutoPlay(false)
+    lastTickTs.current = null
+  }, [])
+
+  useEffect(() => {
+    if (!autoPlay) return
+    const speedPercentPerMs = 0.008
+    let rafId = 0
+
+    const tick = (ts: number) => {
+      if (lastTickTs.current == null) {
+        lastTickTs.current = ts
+      }
+      const dt = ts - lastTickTs.current
+      lastTickTs.current = ts
+
+      if (!dragging.current) {
+        setPct((prev) => {
+          let next = prev + autoDir.current * dt * speedPercentPerMs
+          if (next >= 100) {
+            next = 100
+            autoDir.current = -1
+          } else if (next <= 0) {
+            next = 0
+            autoDir.current = 1
+          }
+          return next
+        })
+      }
+
+      rafId = requestAnimationFrame(tick)
+    }
+
+    rafId = requestAnimationFrame(tick)
+    return () => {
+      cancelAnimationFrame(rafId)
+      lastTickTs.current = null
+    }
+  }, [autoPlay])
 
   const setFromClientX = useCallback((clientX: number) => {
     const el = trackRef.current
@@ -37,9 +81,10 @@ export function BeforeAfterSlider({ beforeSrc, afterSrc }: Props) {
   const onTrackPointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       if (e.button !== 0) return
+      stopAutoPlay()
       startDrag(e, e.currentTarget)
     },
-    [startDrag],
+    [startDrag, stopAutoPlay],
   )
 
   const onTrackPointerMove = useCallback(
@@ -63,11 +108,12 @@ export function BeforeAfterSlider({ beforeSrc, afterSrc }: Props) {
     (e: React.PointerEvent<HTMLButtonElement>) => {
       e.stopPropagation()
       if (e.button !== 0) return
+      stopAutoPlay()
       const track = trackRef.current
       if (!track) return
       startDrag(e, track)
     },
-    [startDrag],
+    [startDrag, stopAutoPlay],
   )
 
   const clipRight = `${100 - pct}%`
@@ -75,6 +121,7 @@ export function BeforeAfterSlider({ beforeSrc, afterSrc }: Props) {
   const afterThird = pct > 100 / 3
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    stopAutoPlay()
     if (e.key === 'ArrowLeft') {
       e.preventDefault()
       setPct((p) => Math.max(0, p - 2))
