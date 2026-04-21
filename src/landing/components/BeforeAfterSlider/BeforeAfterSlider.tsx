@@ -27,7 +27,7 @@ export function BeforeAfterSlider({ beforeSrc, afterSrc }: Props) {
 
   useEffect(() => {
     if (!autoPlay) return
-    const speedPercentPerMs = 0.008
+    const speedPercentPerMs = 0.016
     let rafId = 0
 
     const tick = (ts: number) => {
