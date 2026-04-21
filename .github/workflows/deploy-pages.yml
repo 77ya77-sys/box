@@ -1,5 +1,5 @@
-# dist → ветка gh-pages (там уже лежит правильный index с /box/assets/…).
-# Затем REST: источник Pages = legacy, ветка gh-pages, корень / (не main — там сырой Vite index).
+# Только официальный deploy-pages (без curl к REST Pages — GITHUB_TOKEN часто не может сменить источник).
+# Первый успешный деплой сам привязывает сайт к GitHub Actions. Источник в Settings должен быть «GitHub Actions» (или сменится после первого green deploy).
 
 name: Deploy to GitHub Pages
 
@@ -9,15 +9,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
+  id-token: write
 
 concurrency:
-  group: pages-deploy
-  cancel-in-progress: true
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,40 +33,18 @@ jobs:
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
 
-      - name: Push dist → gh-pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          force_orphan: true
+      - uses: actions/configure-pages@v5
 
-      - name: "Pages — legacy, ветка gh-pages, корень /"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          REPO="${{ github.repository }}"
-          API="https://api.github.com/repos/${REPO}/pages"
-          HDR=(-H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GH_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28")
-          BODY='{"build_type":"legacy","source":{"branch":"gh-pages","path":"/"}}'
-          code=$(curl -sS -o /tmp/pg-get.json -w "%{http_code}" "${HDR[@]}" "$API")
-          echo "GET $API => HTTP $code"
-          if [ "$code" = "404" ]; then
-            http=$(curl -sS -o /tmp/pg-out.json -w "%{http_code}" -X POST "${HDR[@]}" "$API" -d "$BODY")
-            echo "POST => HTTP $http"; cat /tmp/pg-out.json
-          else
-            http=$(curl -sS -o /tmp/pg-out.json -w "%{http_code}" -X PUT "${HDR[@]}" "$API" -d "$BODY")
-            echo "PUT => HTTP $http"; cat /tmp/pg-out.json
-            if [ "$http" = "422" ] || [ "$http" = "409" ]; then
-              echo "PUT не принят (часто после режима workflow) — сброс и POST legacy"
-              dh=$(curl -sS -o /tmp/pg-del.json -w "%{http_code}" -X DELETE "${HDR[@]}" "$API")
-              echo "DELETE => HTTP $dh"; cat /tmp/pg-del.json
-              case "$dh" in 204|200) ;; *) exit 1 ;; esac
-              http=$(curl -sS -o /tmp/pg-out.json -w "%{http_code}" -X POST "${HDR[@]}" "$API" -d "$BODY")
-              echo "POST после DELETE => HTTP $http"; cat /tmp/pg-out.json
-            fi
-          fi
-          case "$http" in
-            20*|201|204) echo "Pages API OK" ;; # 20x + явно 201/204
-            *) exit 1 ;;
-          esac
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
