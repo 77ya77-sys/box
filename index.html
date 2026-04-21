@@ -7,10 +7,11 @@
         const dev =
           ['127.0.0.1', 'localhost'].includes(location.hostname) &&
           /^517[34]$|^4173$/.test(location.port)
+        const inDocs = /\/docs(\/|$)/.test(location.pathname)
         const l = document.createElement('link')
         l.rel = 'icon'
         l.type = 'image/svg+xml'
-        l.href = dev ? '/favicon.svg' : new URL('docs/favicon.svg', document.baseURI).href
+        l.href = dev ? '/favicon.svg' : inDocs ? new URL('favicon.svg', document.baseURI).href : new URL('docs/favicon.svg', document.baseURI).href
         document.head.appendChild(l)
       })()
     </script>
@@ -29,9 +30,10 @@
       const isViteDev =
         (location.hostname === '127.0.0.1' || location.hostname === 'localhost') &&
         (location.port === '5173' || location.port === '5174' || location.port === '4173')
+      const inDocs = /\/docs(\/|$)/.test(location.pathname)
       if (isViteDev) {
         await import('/src/main.tsx')
-      } else {
+      } else if (!inDocs) {
         location.replace(new URL('docs/', location.href).href)
       }
     </script>
