@@ -1,5 +1,5 @@
-# Только официальный deploy-pages (без curl к REST Pages — GITHUB_TOKEN часто не может сменить источник).
-# Первый успешный деплой сам привязывает сайт к GitHub Actions. Источник в Settings должен быть «GitHub Actions» (или сменится после первого green deploy).
+# deploy-pages публикует артефакт dist. В Settings → Pages источник должен быть «GitHub Actions», иначе
+# GitHub продолжит отдавать ветку (например main/) и на сайте будет сырой index.html с /src/main.tsx.
 
 name: Deploy to GitHub Pages
 
