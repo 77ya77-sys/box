@@ -1,0 +1,74 @@
+.article {
+  padding: 40px 0 64px;
+}
+
+.backRow {
+  margin: 0 0 28px;
+}
+
+.backLink {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.backLink:hover {
+  color: var(--color-brand-ink);
+}
+
+.anchorSection {
+  scroll-margin-top: 96px;
+  margin-bottom: 40px;
+}
+
+.anchorSection:last-child {
+  margin-bottom: 0;
+}
+
+.h1 {
+  margin: 0 0 16px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+}
+
+.placeholder {
+  margin: 0 0 20px;
+  color: var(--color-muted);
+  max-width: 48rem;
+}
+
+.docTable {
+  width: 100%;
+  max-width: 48rem;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  border: 1px solid var(--color-stroke);
+}
+
+.docTableCaption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+  padding: 0 0 10px;
+  color: var(--color-ink);
+}
+
+.docTable th,
+.docTable td {
+  border: 1px solid var(--color-stroke);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.docTable th {
+  background: var(--color-bg-soft);
+  font-weight: 600;
+}

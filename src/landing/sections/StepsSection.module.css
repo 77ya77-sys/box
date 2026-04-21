@@ -1,0 +1,147 @@
+/*
+  Figma «Пятый блок» 910:217: фон #f4f7fb, padding 140.
+  Заголовок 910:243: 40px Manrope, #161a2f, ширина 657, центр; y140 → ряд y256 → зазор под заголовком ~70px.
+  Frame 20: 1440×210, три карточки 464×210, gap 24 (488−464).
+  Карточка: bg #fff, stroke #e2e8f0, radius 25, padding 41 99 126 41.
+  Номер: 64px Montserrat, #dadada. Заголовок шага: 24px Montserrat, #000000.
+*/
+
+.section {
+  background: #f4f7fb;
+  padding-top: 140px;
+  padding-bottom: 140px;
+}
+
+.plate {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.heading {
+  margin: 0 auto 70px;
+  max-width: 657px;
+  font-family: var(--font-sans);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  color: #161a2f;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 24px;
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/*
+  В Figma у карточки указаны padding bottom 126 при высоте 210 — это даёт 43px под контент (номер 64px не влезает).
+  По координатам узлов: низ текста ~152, низ карточки 210 → нижний отступ ~58px. Берём ровно 210px total:
+  41 + 64 + 32 + 28 (24×1.2) + 45 = 210.
+*/
+.card {
+  box-sizing: border-box;
+  flex: 0 0 464px;
+  width: 464px;
+  height: 210px;
+  margin: 0;
+  padding: 41px 99px 45px 41px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.number {
+  display: block;
+  margin: 0 0 32px;
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #dadada;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #000000;
+  hyphens: none;
+  word-break: normal;
+}
+
+/* Figma 912:12: «Курьер делает свою работу» — одна строка, без переноса */
+.card:nth-child(2) .cardTitle {
+  white-space: nowrap;
+}
+
+@media (max-width: 1500px) {
+  .list {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card {
+    flex: 1 1 320px;
+    width: auto;
+    max-width: 464px;
+    min-height: 210px;
+    height: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding-top: clamp(64px, 10vw, 140px);
+    padding-bottom: clamp(64px, 10vw, 140px);
+  }
+
+  .heading {
+    margin-bottom: clamp(40px, 8vw, 70px);
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    max-width: none;
+  }
+
+  .list {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card {
+    flex: none;
+    width: 100%;
+    max-width: none;
+    padding: 41px 32px 48px 41px;
+  }
+
+  .number {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+
+  .cardTitle {
+    font-size: clamp(1.125rem, 4vw, 1.5rem);
+  }
+
+  .card:nth-child(2) .cardTitle {
+    white-space: normal;
+  }
+}

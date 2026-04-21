@@ -1,0 +1,364 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.headerInner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(12px, 3vw, 32px);
+  min-height: 79px;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.5vw, 2.1875rem);
+  line-height: 1;
+  color: #000000;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand:hover {
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 48px);
+}
+
+.navLink {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #000000;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cta {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 12px 24px;
+  background: var(--color-brand);
+  color: var(--color-brand-ink);
+  font-weight: 600;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.cta:hover {
+  filter: brightness(0.97);
+}
+
+.main {
+  flex: 1;
+}
+
+/*
+  Подвал Figma узел 913:35 «Подвал»: Frame 27 (1439×202) + Frame 25 платежи (497×292, 146×25) + ©.
+  Колонки: 314 | 279 | 253 | 433 | 160 (сумма 1439). Отступы артборда: padding shell = max(20px, (100vw − 1440)/2).
+*/
+.footer {
+  background: var(--color-footer);
+  color: var(--color-white-dim);
+  padding: 0;
+}
+
+.footerShell {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  padding: 102px max(20px, calc((100vw - 1440px) / 2)) 10px;
+}
+
+/* Одна колонка 1440px: правый край WhatsApp и правый край «© …» на одной вертикали */
+.footerContent {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.footerMainRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.footerCol {
+  flex: 0 0 314px;
+  width: 314px;
+  min-width: 0;
+  padding-top: 5.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footerBrand {
+  margin: 0 0 16px;
+  font-family: var(--font-sans);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-white-dim);
+}
+
+.footerLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+.footerLinksSecondary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  margin-top: 18px;
+  width: 100%;
+}
+
+.footerLink {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  color: var(--color-white-dim);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--color-white);
+  text-decoration: underline;
+}
+
+.footerAddress {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 0 0 253px;
+  width: 253px;
+  margin: 0 0 0 279px;
+  padding: 56.5px 0 0;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  font-style: normal;
+  color: var(--color-white-dim);
+  text-align: left;
+}
+
+.footerPaymentsRow {
+  width: 100%;
+  margin: -12px 0 0;
+  padding-left: 257px;
+  box-sizing: border-box;
+}
+
+.footerPayments {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 14px;
+  width: auto;
+  min-height: 25px;
+}
+
+.footerPaymentSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.footerPaymentImg {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(120px, 30vw);
+  max-height: 25px;
+  object-fit: contain;
+}
+
+/* PNG СБП с чёрным текстом на тёмном футере */
+.footerPaymentImgInvert {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(120px, 30vw);
+  max-height: 25px;
+  object-fit: contain;
+  filter: invert(1);
+}
+
+.footerPaymentPlaceholder {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.footerSocial {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 160px;
+  width: 160px;
+  margin: 0 0 0 auto;
+  padding-top: 48.5px;
+}
+
+.footerSocial a {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.footerSocial img {
+  display: block;
+  width: 44px;
+  height: 44px;
+}
+
+.footerCopy {
+  margin: 9px 0 0;
+  padding: 0;
+  width: 100%;
+  text-align: right;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  color: var(--color-white-dim);
+}
+
+.footerBar {
+  background: var(--color-footer-deep);
+  padding: 0;
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+}
+
+.footerBarInner {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  min-height: 84px;
+  box-sizing: border-box;
+}
+
+.footerCredit {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+@media (max-width: 1479px) {
+  .footerContent {
+    max-width: none;
+  }
+
+  .footerMainRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .footerCol {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    padding-top: 0;
+  }
+
+  .footerAddress {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+  }
+
+  .footerSocial {
+    flex: 1 1 auto;
+    width: auto;
+    margin: 0;
+    padding-top: 0;
+    justify-content: flex-start;
+  }
+
+  .footerPaymentsRow {
+    margin-top: 24px;
+    padding-left: 0;
+  }
+
+  .footerCopy {
+    text-align: left;
+    margin-top: 16px;
+  }
+
+  .footerBarInner {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 960px) {
+  .headerInner {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    min-height: 0;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .brand {
+    grid-column: 1;
+  }
+
+  .cta {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .nav {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+}

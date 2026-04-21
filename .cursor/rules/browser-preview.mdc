@@ -1,0 +1,10 @@
+---
+description: Open sites only in user's Google Chrome, never in Cursor internal browser
+alwaysApply: true
+---
+
+# Предпросмотр — только в Chrome
+
+- Нельзя открывать сайт во встроенном браузере Cursor / Simple Browser / preview pane.
+- Нужно: запустить `npm run dev` и отдать пользователю URL (`http://localhost:5173/`), чтобы он открыл в **Google Chrome**.
+- Не вызывать `code --command simpleBrowser.show`, не использовать cursor-ide-browser как замену пользовательскому просмотру.

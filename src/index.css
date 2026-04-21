@@ -1,0 +1,128 @@
+:root {
+  color-scheme: light;
+  --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+  --font-display: 'Montserrat', system-ui, sans-serif;
+
+  --color-ink: #161a2f;
+  --color-ink-muted: rgba(22, 26, 47, 0.76);
+  --color-bg: #ffffff;
+  --color-bg-soft: #f4f7fb;
+  --color-brand: #ffcc33;
+  --color-brand-ink: #573a01;
+  --color-dark: #1e293b;
+  --color-footer: #0f172a;
+  --color-footer-deep: #0a0f1c;
+  --color-stroke: #e2e8f0;
+  --color-white: #ffffff;
+  --color-white-dim: rgba(255, 255, 255, 0.58);
+  --color-slate-400: #94a3b8;
+  --color-muted: rgba(22, 26, 47, 0.62);
+  --color-surface: #ffffff;
+
+  --container-max: 1440px;
+  --container-pad: 20px;
+  /* Контентная ширина = контейнер сайта 1440 (внутри PageContainer с паддингами — см. PageContainer.module.css) */
+  --plate-max: var(--container-max);
+  /* Ширина САМОГО окошка слайдера во втором блоке — только BeforeAfterSlider, не трогает остальное */
+  --slider-frame-max: 1100px;
+
+  --radius-lg: 25px;
+  --shadow-soft: 0 16px 48px rgba(15, 23, 42, 0.08);
+
+  /* Figma Group 5 / секции: заголовки блоков (Manrope 40 / Bold) */
+  --heading-block-size: 40px;
+  --heading-block-weight: 700;
+  --heading-block-lh: 1.15;
+
+  /* Figma Блок СТА (912:14), актуальные узлы: цена 912:34, кнопка 912:31, текст 912:30 */
+  --cta-price-size: 66px;
+  --cta-button-w: 328px;
+  --cta-button-h: 66px;
+  --cta-button-font: 40px;
+  --cta-button-pad-y: 12px;
+  --cta-button-pad-x: 24px;
+  --cta-note-size: 16px;
+  --cta-note-opacity: 0.43;
+  /* 1138 − (453+248) = 437px между правым краем цены и левым краем кнопки */
+  --cta-cluster-gap: 437px;
+  --cta-inner-max: 1013px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-ink);
+  line-height: 1.45;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+button {
+  font: inherit;
+}
+
+.btnBrand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 12px 24px;
+  background: var(--color-brand);
+  color: var(--color-brand-ink);
+  font-weight: 600;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.btnBrand:hover {
+  filter: brightness(0.97);
+}
+
+.btnBrand:active {
+  transform: translateY(1px);
+}
+
+.btnBrandSm {
+  font-size: 1.375rem;
+  padding: 12px 24px;
+}
+
+@media (max-width: 640px) {
+  .btnBrand {
+    font-size: 1.125rem;
+  }
+}
+
+/* Плейт по ширине контентной колонки (1440). Обёртка внутри PageContainer. */
+.figmaPlate {
+  width: 100%;
+  max-width: var(--plate-max);
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}

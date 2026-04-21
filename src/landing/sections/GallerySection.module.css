@@ -1,0 +1,147 @@
+/*
+  Figma «Чертвертый блок» 886:98: фон #fff, контент 1440.
+  Заголовок 901:115: 40px Manrope, #161a2f, центр, ширина 792; от верха 140, до карусели 256 → под заголовком 70px.
+  Карусель 902:188: 1440×438. Карточки 604×438, зазор 24 (628−604).
+  Карточка 902:162: фон #f4f7fb, radius 25, снизу padding в макете 120 у фрейма — высота блока фикс 438.
+  Картинка 604×337.116…; подпись Frame 15: padding 20, заголовок 20px, текст 16px, #000000.
+*/
+
+.section {
+  background: #ffffff;
+  padding-top: 140px;
+  padding-bottom: 140px;
+}
+
+.plate {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.heading {
+  margin: 0 auto 70px;
+  max-width: 792px;
+  font-family: var(--font-sans);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  color: #161a2f;
+}
+
+.scroller {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 0 8px;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+}
+
+.scroller:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 4px;
+}
+
+.track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 24px;
+  width: max-content;
+}
+
+.card {
+  flex: 0 0 604px;
+  width: 604px;
+  height: 438px;
+  border-radius: 25px;
+  background: #f4f7fb;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}
+
+.media {
+  flex: 0 0 auto;
+  height: 337.116px;
+  position: relative;
+  background: #f4f7fb;
+  overflow: hidden;
+  border-radius: 25px 25px 0 0;
+}
+
+.mediaImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  user-select: none;
+}
+
+.caption {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 4px;
+  box-sizing: border-box;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #000000;
+}
+
+.cardText {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #000000;
+  white-space: pre-line;
+  word-break: normal;
+  hyphens: none;
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding-top: clamp(64px, 10vw, 140px);
+    padding-bottom: clamp(64px, 10vw, 140px);
+  }
+
+  .heading {
+    margin-bottom: clamp(40px, 8vw, 70px);
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    max-width: none;
+  }
+
+  .card {
+    flex: 0 0 min(604px, 85vw);
+    width: min(604px, 85vw);
+    height: auto;
+    min-height: 438px;
+  }
+
+  .media {
+    height: auto;
+    aspect-ratio: 604 / 337.116;
+    min-height: 200px;
+  }
+}

@@ -1,0 +1,18 @@
+.section {
+  padding: 48px 0 72px;
+}
+
+.title {
+  margin: 0 0 12px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.text {
+  margin: 0 0 20px;
+  color: var(--color-muted);
+  max-width: 40rem;
+}
+
+.link {
+  font-weight: 600;
+}

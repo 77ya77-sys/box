@@ -1,0 +1,199 @@
+/*
+  Figma «Третий блок» 875:2190: padding секции 140, контент 1440px, без заголовка.
+  Ряд 1: 775 + 74 + 591; ряд 2: 591 + 74 + 775. Высота карточек 323px, radius 25.
+  Узлы карточек: 885:8, 885:9, 885:11, 885:10.
+*/
+
+.section {
+  background: var(--color-bg-soft);
+  padding-top: 140px;
+  padding-bottom: 140px;
+}
+
+.plate {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 74px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 74px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.row:first-child .card:first-child {
+  width: 775px;
+  flex: 0 0 775px;
+}
+
+.row:first-child .card:last-child {
+  width: 591px;
+  flex: 0 0 591px;
+}
+
+.row:last-child .card:first-child {
+  width: 591px;
+  flex: 0 0 591px;
+}
+
+.row:last-child .card:last-child {
+  width: 775px;
+  flex: 0 0 775px;
+}
+
+.card {
+  box-sizing: border-box;
+  border-radius: 25px;
+  height: 323px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+/* 885:8 */
+.cardDark {
+  background: #1e293b;
+  color: #ffffff;
+  padding: 41px 143px 147px 41px;
+}
+
+/* 885:9 */
+.cardDoor {
+  padding: 41px 29px 126px 41px;
+}
+
+/* 885:11 */
+.cardEye {
+  padding: 41px 99px 126px 41px;
+}
+
+/* 885:10 */
+.cardWrench {
+  padding: 41px 117px 170px 41px;
+}
+
+.cardLight {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: var(--color-ink);
+}
+
+.cardMuted {
+  background: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: var(--color-ink);
+}
+
+.card > svg {
+  flex: none;
+  margin-bottom: 32px;
+}
+
+.cardTitle {
+  margin: 0 0 12px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--color-ink);
+}
+
+.cardTitleDoor {
+  font-size: 28px;
+}
+
+.cardTitleOnDark {
+  color: #ffffff;
+}
+
+.cardText {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.45;
+  color: var(--color-ink);
+  white-space: pre-line;
+  word-break: normal;
+  hyphens: none;
+}
+
+.cardTextOnDark {
+  color: #ffffff;
+}
+
+.icon {
+  color: var(--color-ink);
+}
+
+.iconOnDark {
+  color: #ffffff;
+}
+
+/* Контент 1440 + паддинги PageContainer — ниже ~1480 внутренняя полоса уже не тянет ряд */
+@media (max-width: 1480px) {
+  .row {
+    flex-wrap: wrap;
+    gap: clamp(32px, 5vw, 74px);
+    justify-content: center;
+  }
+
+  .row:first-child .card:first-child,
+  .row:first-child .card:last-child,
+  .row:last-child .card:first-child,
+  .row:last-child .card:last-child {
+    width: min(100%, 775px);
+    flex: 1 1 320px;
+    max-width: 775px;
+    height: auto;
+    min-height: 323px;
+  }
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding-top: clamp(64px, 10vw, 140px);
+    padding-bottom: clamp(64px, 10vw, 140px);
+  }
+
+  .rows {
+    gap: clamp(32px, 6vw, 74px);
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .row:first-child .card:first-child,
+  .row:first-child .card:last-child,
+  .row:last-child .card:first-child,
+  .row:last-child .card:last-child {
+    width: 100%;
+    max-width: none;
+    flex: none;
+  }
+
+  .cardDark,
+  .cardDoor,
+  .cardEye,
+  .cardWrench {
+    padding: 41px 32px 48px 41px;
+  }
+}

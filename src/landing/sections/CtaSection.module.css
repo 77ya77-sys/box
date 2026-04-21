@@ -1,0 +1,133 @@
+.section {
+  background: var(--color-dark);
+  color: var(--color-white);
+  padding-top: clamp(64px, 10vw, 140px);
+  padding-bottom: clamp(64px, 10vw, 140px);
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/*
+  Figma 912:14 «Блок СТА»: внутренний блок 1013px по центру контейнера 1440.
+*/
+.box {
+  width: 100%;
+  max-width: var(--cta-inner-max); /* 1013px */
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+/* Ширина по тексту — чтобы выровнять правый край колонки «кнопка + подпись» по последней букве */
+.heading {
+  margin: 0 0 64px;
+  width: fit-content;
+  max-width: 100%;
+  font-size: var(--heading-block-size);
+  font-weight: var(--heading-block-weight);
+  line-height: var(--heading-block-lh);
+  text-align: left;
+  color: var(--color-white);
+}
+
+/*
+  Ряд на всю ширину .box (1013):
+  цена 248 → левый край, колонка кнопки 328 → правый край, gap = 1013 − 248 − 328 = 437.
+*/
+/*
+  Figma 912:14: цена и кнопка на ОДНОЙ горизонтальной линии (верхи и низы совпадают,
+  у обоих высота 66px). align-items: flex-start, иначе колонка (кнопка+подпись)
+  центрируется по всей своей высоте и кнопка уезжает вверх относительно цены.
+*/
+.rowCluster {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 24px;
+}
+
+.price {
+  flex: 0 0 auto;
+  height: var(--cta-button-h); /* 66px — та же высота, что у кнопки */
+  display: flex;
+  align-items: center;
+  font-size: var(--cta-price-size);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.actionCol {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: var(--cta-button-w);
+  max-width: 100%;
+  min-width: 0;
+  /* десктоп: marginLeft задаётся из JS — правый край колонки = правому краю заголовка */
+}
+
+.cta {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--cta-button-h);
+  padding: var(--cta-button-pad-y) var(--cta-button-pad-x);
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--color-brand);
+  color: var(--color-brand-ink);
+  font-size: var(--cta-button-font);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.cta:hover {
+  filter: brightness(0.97);
+}
+
+.note {
+  margin: 0;
+  width: 100%;
+  font-size: var(--cta-note-size);
+  line-height: 1.5;
+  color: var(--color-white);
+  opacity: var(--cta-note-opacity);
+  text-align: left;
+}
+
+@media (max-width: 900px) {
+  .rowCluster {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 32px;
+  }
+
+  .price {
+    font-size: min(48px, 12vw);
+    text-align: center;
+  }
+
+  .actionCol {
+    align-items: center;
+    width: min(100%, var(--cta-button-w));
+  }
+
+  .note {
+    text-align: center;
+  }
+
+  .cta {
+    font-size: min(28px, 7vw);
+    height: auto;
+    min-height: 56px;
+  }
+}
