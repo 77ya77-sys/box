@@ -27,13 +27,14 @@ npm run build
 
 Артефакт — `dist/`. На VPS: nginx раздаёт `dist`, `location /api` проксирует на процесс Node.
 
-## GitHub Pages (один раз в настройках репозитория)
+## GitHub Pages
 
-CI публикует `dist` через **GitHub Actions** (workflow `Deploy to GitHub Pages`). Пока в **Settings → Pages** указан источник «Deploy from a branch» с **main** (корень), на `https://<user>.github.io/<repo>/` будет отдаваться **сырой** корневой `index.html` из репо, а не сборка.
+Источник **Deploy from a branch → `main` → `/` (root)** поддерживается без ручных переключений на «GitHub Actions»:
 
-1. В репозитории: **Settings → Pages** (`https://github.com/<owner>/<repo>/settings/pages`).
-2. **Build and deployment → Source:** выбери **GitHub Actions** (не ветку `main`).
-3. Дождись зелёного прогона workflow после пуша в `main`.
+- корневой `index.html` на **dev** грузит Vite (`127.0.0.1:5173` и т.п.);
+- на **github.io** редиректит в **`./docs/`**, где лежит статика из `dist` (обновляет workflow `Deploy to GitHub Pages` после каждого пуша в `main`).
+
+Если в Settings выбран **только каталог `/docs`** без корня, редирект с корня не используется — оставь тогда один источник `/docs` и тот же workflow.
 
 ## Переменные
 

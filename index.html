@@ -2,7 +2,18 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <script>
+      ;(() => {
+        const dev =
+          ['127.0.0.1', 'localhost'].includes(location.hostname) &&
+          /^517[34]$|^4173$/.test(location.port)
+        const l = document.createElement('link')
+        l.rel = 'icon'
+        l.type = 'image/svg+xml'
+        l.href = dev ? '/favicon.svg' : new URL('docs/favicon.svg', document.baseURI).href
+        document.head.appendChild(l)
+      })()
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Курьер-бокс</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,6 +25,15 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module">
+      const isViteDev =
+        (location.hostname === '127.0.0.1' || location.hostname === 'localhost') &&
+        (location.port === '5173' || location.port === '5174' || location.port === '4173')
+      if (isViteDev) {
+        await import('/src/main.tsx')
+      } else {
+        location.replace(new URL('docs/', location.href).href)
+      }
+    </script>
   </body>
 </html>

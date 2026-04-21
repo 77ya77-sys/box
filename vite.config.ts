@@ -3,16 +3,17 @@ import react from '@vitejs/plugin-react'
 
 /**
  * GitHub Pages (project site): `https://user.github.io/<repo>/`
- * В CI задаётся `GITHUB_REPOSITORY=owner/repo`. Локально для ручной сборки: `VITE_BASE=/repo/`.
+ * `VITE_BASE` важнее `GITHUB_REPOSITORY` — в CI можно задать `/repo/docs/` (сборка в папку docs/ при публикации с корня main).
+ * Иначе: `GITHUB_REPOSITORY` → base `/<repo>/`.
  */
 function resolveBase(): string {
+  const b = process.env.VITE_BASE?.trim()
+  if (b && b !== '/') return b.endsWith('/') ? b : `${b}/`
   const gr = process.env.GITHUB_REPOSITORY
   if (gr) {
     const repo = gr.split('/')[1]
     if (repo) return `/${repo}/`
   }
-  const b = process.env.VITE_BASE?.trim()
-  if (b && b !== '/') return b.endsWith('/') ? b : `${b}/`
   return '/'
 }
 

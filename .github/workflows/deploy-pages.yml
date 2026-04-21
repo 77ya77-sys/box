@@ -1,5 +1,5 @@
-# deploy-pages публикует артефакт dist. В Settings → Pages источник должен быть «GitHub Actions», иначе
-# GitHub продолжит отдавать ветку (например main/) и на сайте будет сырой index.html с /src/main.tsx.
+# Сборка с base /<repo>/docs/ → коммит в docs/ на main.
+# Корневой index.html — редирект на ./docs/ (работает даже если Pages = «main /», без GitHub Actions).
 
 name: Deploy to GitHub Pages
 
@@ -9,16 +9,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: pages-docs-sync
+  cancel-in-progress: true
 
 jobs:
-  build:
+  sync-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,23 +26,25 @@ jobs:
           node-version: '22'
           cache: npm
 
-      - run: npm ci
-      - run: npm run build
+      - name: Сборка под GitHub Pages (base с /docs/)
+        run: npm ci && npm run build
         env:
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          VITE_BASE: /${{ github.event.repository.name }}/docs/
 
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Копировать dist в docs и пуш
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -rf docs
+          mkdir -p docs
+          cp -a dist/. docs/
+          test -f docs/index.html
+          : > docs/.nojekyll
+          git add docs
+          if git diff --staged --quiet; then
+            echo "docs уже совпадает с dist, коммит не нужен"
+            exit 0
+          fi
+          git commit -m "chore(pages): sync docs from dist [skip ci]"
+          git push
