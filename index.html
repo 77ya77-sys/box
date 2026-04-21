@@ -2,17 +2,27 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
+    <!-- Только синхронный скрипт: Vite не склеивает его с entry, иначе ломается if/else и не грузится main на /.../docs/ -->
     <script>
-      ;(() => {
-        const dev =
-          ['127.0.0.1', 'localhost'].includes(location.hostname) &&
-          /^517[34]$|^4173$/.test(location.port)
-        const inDocs = /\/docs(\/|$)/.test(location.pathname)
-        const l = document.createElement('link')
-        l.rel = 'icon'
-        l.type = 'image/svg+xml'
-        l.href = dev ? '/favicon.svg' : inDocs ? new URL('favicon.svg', document.baseURI).href : new URL('docs/favicon.svg', document.baseURI).href
-        document.head.appendChild(l)
+      ;(function () {
+        var h = location.hostname
+        var p = location.port || ''
+        var path = location.pathname
+        var isDev =
+          (h === '127.0.0.1' || h === 'localhost') && /^517[34]$|^4173$/.test(p)
+        var inDocs = /\/docs(\/|$)/.test(path)
+        var link = document.createElement('link')
+        link.rel = 'icon'
+        link.type = 'image/svg+xml'
+        link.href = isDev
+          ? '/favicon.svg'
+          : inDocs
+            ? new URL('favicon.svg', document.baseURI).href
+            : new URL('docs/favicon.svg', document.baseURI).href
+        document.head.appendChild(link)
+        if (!isDev && !inDocs) {
+          location.replace(new URL('docs/', location.href).href)
+        }
       })()
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,16 +36,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module">
-      const isViteDev =
-        (location.hostname === '127.0.0.1' || location.hostname === 'localhost') &&
-        (location.port === '5173' || location.port === '5174' || location.port === '4173')
-      const inDocs = /\/docs(\/|$)/.test(location.pathname)
-      if (isViteDev) {
-        await import('/src/main.tsx')
-      } else if (!inDocs) {
-        location.replace(new URL('docs/', location.href).href)
-      }
-    </script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
