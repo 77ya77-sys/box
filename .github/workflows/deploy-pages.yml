@@ -1,25 +1,29 @@
-# Собирает фронт (base=/repo/ из GITHUB_REPOSITORY) и пушит только dist в ветку gh-pages.
-# GitHub Pages: Settings → Pages → Build and deployment → Deploy from a branch → Branch: gh-pages, folder: /
+# Кладёт production-сборку в папку docs/ на main. GitHub Pages: Branch main, Folder /docs (не root).
+# Пуши только в docs/ не перезапускают workflow (paths-ignore).
 
-name: Deploy GitHub Pages
+name: Sync site to docs
 
 on:
   push:
     branches: [main, master]
+    paths-ignore:
+      - 'docs/**'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: pages
+  group: sync-docs
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -29,9 +33,16 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Push dist to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          force_orphan: true
+      - name: Update docs/ from dist/
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm -rf docs
+          cp -r dist docs
+          git add docs
+          if git diff --staged --quiet; then
+            echo "docs/ already matches dist"
+            exit 0
+          fi
+          git commit -m "chore(pages): sync dist to docs [skip ci]"
+          git push
