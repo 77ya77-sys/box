@@ -2,6 +2,15 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      ;(() => {
+        const isGitHubPages = location.hostname.endsWith('github.io')
+        const inDocs = /\/docs(\/|$)/.test(location.pathname)
+        if (isGitHubPages && !inDocs) {
+          location.replace(new URL('docs/', location.href).href)
+        }
+      })()
+    </script>
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Курьер-бокс</title>
