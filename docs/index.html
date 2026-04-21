@@ -2,29 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <!-- Только синхронный скрипт: Vite не склеивает его с entry, иначе ломается if/else и не грузится main на /.../docs/ -->
-    <script>
-      ;(function () {
-        var h = location.hostname
-        var p = location.port || ''
-        var path = location.pathname
-        var isDev =
-          (h === '127.0.0.1' || h === 'localhost') && /^517[34]$|^4173$/.test(p)
-        var inDocs = /\/docs(\/|$)/.test(path)
-        var link = document.createElement('link')
-        link.rel = 'icon'
-        link.type = 'image/svg+xml'
-        link.href = isDev
-          ? '/favicon.svg'
-          : inDocs
-            ? new URL('favicon.svg', document.baseURI).href
-            : new URL('docs/favicon.svg', document.baseURI).href
-        document.head.appendChild(link)
-        if (!isDev && !inDocs) {
-          location.replace(new URL('docs/', location.href).href)
-        }
-      })()
-    </script>
+    <link rel="icon" type="image/svg+xml" href="/box/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Курьер-бокс</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,8 +11,8 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/box/docs/assets/index-C_d3twCZ.js"></script>
-    <link rel="stylesheet" crossorigin href="/box/docs/assets/index-BXFGhmBb.css">
+    <script type="module" crossorigin src="/box/assets/index-DiI81fMY.js"></script>
+    <link rel="stylesheet" crossorigin href="/box/assets/index-BXFGhmBb.css">
   </head>
   <body>
     <div id="root"></div>

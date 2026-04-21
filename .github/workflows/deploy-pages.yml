@@ -1,5 +1,4 @@
-# Сборка с base /<repo>/docs/ → коммит в docs/ на main.
-# Корневой index.html — редирект на ./docs/ (работает даже если Pages = «main /», без GitHub Actions).
+# Сборка с base /<repo>/ → публикация из docs/ (Source: Deploy from branch, main/docs).
 
 name: Deploy to GitHub Pages
 
@@ -26,10 +25,10 @@ jobs:
           node-version: '22'
           cache: npm
 
-      - name: Сборка под GitHub Pages (base с /docs/)
+      - name: Сборка под GitHub Pages
         run: npm ci && npm run build
         env:
-          VITE_BASE: /${{ github.event.repository.name }}/docs/
+          VITE_BASE: /${{ github.event.repository.name }}/
 
       - name: Копировать dist в docs и пуш
         run: |

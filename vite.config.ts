@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react'
 
 /**
  * GitHub Pages (project site): `https://user.github.io/<repo>/`
- * `VITE_BASE` важнее `GITHUB_REPOSITORY` — в CI можно задать `/repo/docs/` (сборка в папку docs/ при публикации с корня main).
+ * `VITE_BASE` важнее `GITHUB_REPOSITORY` — в CI задаём `/<repo>/`.
+ * Папка публикации (`docs/`) и URL-base — независимы: для Source `main/docs` base должен быть `/<repo>/`.
  * Иначе: `GITHUB_REPOSITORY` → base `/<repo>/`.
  */
 function resolveBase(): string {

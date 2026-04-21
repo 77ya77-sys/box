@@ -29,12 +29,23 @@ npm run build
 
 ## GitHub Pages
 
-Источник **Deploy from a branch → `main` → `/` (root)** поддерживается без ручных переключений на «GitHub Actions»:
+Единая и рекомендуемая схема (без ручных переключений):
 
-- корневой `index.html` на **dev** грузит Vite (`127.0.0.1:5173` и т.п.);
-- на **github.io** редиректит в **`./docs/`**, где лежит статика из `dist` (обновляет workflow `Deploy to GitHub Pages` после каждого пуша в `main`).
+1. `Settings → Pages → Source: Deploy from a branch`
+2. `Branch: main`, `Folder: /docs`
+3. Workflow `Deploy to GitHub Pages` на каждом пуше в `main`:
+   - собирает проект с `VITE_BASE=/<repo>/`;
+   - копирует `dist/` в `docs/`;
+   - пушит обновлённую статику в `main`.
 
-Если в Settings выбран **только каталог `/docs`** без корня, редирект с корня не используется — оставь тогда один источник `/docs` и тот же workflow.
+Важно: для Source `main/docs` URL сайта должен быть вида `https://<user>.github.io/<repo>/`, а не `.../<repo>/docs/`.
+
+## Боевое окружение (VPS/nginx)
+
+- Сборка: `npm run build`
+- Публикация: содержимое `dist/` раздаёт nginx как статику
+- API: `location /api` проксируется на Node-процесс из `api/`
+- Для VPS не задавайте `VITE_BASE` (по умолчанию `/`)
 
 ## Переменные
 
