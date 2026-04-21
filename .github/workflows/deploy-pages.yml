@@ -1,5 +1,5 @@
-# Публикация только из артефакта сборки (dist). Не используем корень main — там сырой index.html для Vite.
-# Источник Pages: GitHub Actions (build_type: workflow), не ветка /docs и не «/» на main.
+# dist → ветка gh-pages (там уже лежит правильный index с /box/assets/…).
+# Затем REST: источник Pages = legacy, ветка gh-pages, корень / (не main — там сырой Vite index).
 
 name: Deploy to GitHub Pages
 
@@ -9,16 +9,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
-  id-token: write
 
 concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: pages-deploy
+  cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,21 +32,14 @@ jobs:
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
 
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
+      - name: Push dist → gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          force_orphan: true
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      # GitHub ожидает branch/path даже для workflow — см. REST Pages.
-      - name: Переключить Pages на GitHub Actions (workflow)
+      - name: Pages: только ветка gh-pages (legacy)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -55,19 +47,17 @@ jobs:
           REPO="${{ github.repository }}"
           API="https://api.github.com/repos/${REPO}/pages"
           HDR=(-H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GH_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28")
-          BODY='{"build_type":"workflow","source":{"branch":"main","path":"/"}}'
-          code=$(curl -sS -o /tmp/pg.json -w "%{http_code}" "${HDR[@]}" "$API")
+          BODY='{"build_type":"legacy","source":{"branch":"gh-pages","path":"/"}}'
+          code=$(curl -sS -o /tmp/pg-get.json -w "%{http_code}" "${HDR[@]}" "$API")
           echo "GET $API => HTTP $code"
           if [ "$code" = "404" ]; then
             http=$(curl -sS -o /tmp/pg-out.json -w "%{http_code}" -X POST "${HDR[@]}" "$API" -d "$BODY")
             echo "POST => HTTP $http"; cat /tmp/pg-out.json
-            [[ "$http" =~ ^20 ]]
           else
             http=$(curl -sS -o /tmp/pg-out.json -w "%{http_code}" -X PUT "${HDR[@]}" "$API" -d "$BODY")
             echo "PUT => HTTP $http"; cat /tmp/pg-out.json
-            [[ "$http" =~ ^20 ]]
           fi
-          rm -f /tmp/pg.json /tmp/pg-out.json
-
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          case "$http" in
+            20*|204) echo "Pages API OK" ;;
+            *) exit 1 ;;
+          esac
